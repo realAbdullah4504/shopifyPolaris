@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import { Frame, Page, useBreakpoints } from '@shopify/polaris';
 
+
+import React, { useCallback, useState } from 'react';
+import TopBarMarkup from './components/TopBarMarkup';
+import NavigationMarkup from './components/NavigationMarkup';
+import Routes from './components/Routes';
+
+
+
+const logo = {
+  topBarSource:
+    "https://cdn.shopify.com/s/files/1/2376/3301/files/Shopify_Secondary_Inverted.png",
+  width: 86,
+  url: "/",
+  accessibilityLabel: "Shopify",
+};
 function App() {
+  const [nav, setNav] = useState(false);
+  const handleNavigationToggle = useCallback(() => {
+    setNav(true);
+  }, []);
+
+  const { smDown, mdDown, lgDown } = useBreakpoints();
+  // console.log(location.pathname);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Frame topBar={<TopBarMarkup onNavigationToggle={handleNavigationToggle} />} logo={logo} showMobileNavigation={nav} navigation={<NavigationMarkup />} onNavigationDismiss={() => setNav(false)}>
+
+      <Routes />
+    </Frame>
   );
 }
 
